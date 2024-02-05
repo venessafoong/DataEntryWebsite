@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script crossorigin="anonymous"
+          integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+  <title>Add New Lorry</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Vroom Trading</a>
+    <button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-bs-target="#navbarNavDropdown" data-bs-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a aria-current="page" class="nav-link active" href="/home/{username}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/customer-info">Customers</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+             href="/vehicle-info"
+             role="button">
+            Vehicles
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/vehicle-info">View All</a></li>
+            <li><a class="dropdown-item" href="/vehicle-addVan">Add Van</a></li>
+            <li><a class="dropdown-item" href="/vehicle-addLorry">Add Lorry</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+             href="/transactions"
+             role="button">
+            Transactions
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/transactions">View All</a></li>
+            <li><a class="dropdown-item" href="/transactions-add.new">Add for New Customer</a></li>
+            <li><a class="dropdown-item" href="/transactions-add.existing">Add for Existing Customer</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br>
+<h2 class="text-center">Add Lorry</h2>
+<br>
+<div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+<form class="row g-3" th:action="@{/vehicle-addLorry}" th:method="POST" th:object="${lorry}">
+  <div class="col-md-2">
+    <label class="form-label" for="vehicleNumber">Vehicle No.</label>
+    <input class="form-control" id="vehicleNumber" th:field="*{vehicleNumber}" required type="text">
+  </div>
+  <div class="col-md-1">
+    <label class="form-label" for="brand">Brand</label>
+    <select class="form-select" id="brand" required th:field="*{brand}" th:name="brand">
+      <option value="" disabled selected hidden></option>
+      <option value="isuzu">Isuzu</option>
+      <option value="nissan">Nissan</option>
+      <option value="toyota">Toyota</option>
+    </select>
+  </div>
+  <div class="col-md-1">
+    <label class="form-label" for="model">Model</label>
+    <input class="form-control" id="model" required th:field="*{model}" th:name="model" type="text">
+  </div>
+  <div class="col-md-1">
+    <label class="form-label" for="length">Length(ft)</label>
+    <input class="form-control" id="length" required th:field="*{length}" th:name="length" type="number">
+  </div>
+  <div class="col-md-1">
+    <label class="form-label" for="tonnage">Tonnage(ton)</label>
+    <input class="form-control" id="tonnage" required th:field="*{tonnage}" th:name="tonnage" type="number">
+  </div>
+  <div class="col-md-1">
+    <label class="form-label" for="body">body</label>
+    <select class="form-select" id="body" required th:field="*{body}" th:name="body">
+      <<option value="" disabled selected hidden></option>
+      <option value="canopy">Canopy</option>
+      <option value="open">Open</option>
+      <option value="box">Box</option>
+      <option value="tailgate">Tailgate</option>
+    </select>
+  </div>
+  <div class="col-md-1">
+    <p class="form-label">Fuel Type</p>
+    <input id="petrol" required th:field="*{fuelType}" th:name="fuelType" type="radio" value="petrol">
+    <label for="petrol">Petrol</label><br>
+    <input id="diesel" th:name="fuelType" type="radio" value="diesel">
+    <label class="form-label" for="diesel">Diesel</label><br>
+  </div>
+  <div class="col-md-1">
+    <p class="form-label">Transmission</p>
+    <input id="auto" required th:field="*{transmission}" th:name="transmission" type="radio" value="auto">
+    <label for="auto">Auto</label><br>
+    <input id="manual" th:name="transmission" type="radio" value="manual">
+    <label class="form-label" for="manual">Manual</label><br>
+  </div>
+  <div class="col-md-2">
+    <label class="form-label" for="regDate">Registration Date</label>
+    <input class="form-control" id="regDate" required th:field="*{registrationDate}" th:name="registrationDate"
+           type="date">
+  </div>
+  <div class="col-md-2">
+    <label class="form-label" for="coeExpiry">COE Expiry Date</label>
+    <input class="form-control" id="coeExpiry" required th:field="*{coeExpiry}" th:name="coeExpiry" type="date">
+  </div>
+  <div class="col-md-2">
+    <label class="form-label" for="roadTaxExpiry">Road Tax Expiry Date</label>
+    <input class="form-control" id="roadTaxExpiry" required th:field="*{roadTaxExpiry}" th:name="roadTaxExpiry"
+           type="date">
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </div>
+</form>
+</body>
+</html>

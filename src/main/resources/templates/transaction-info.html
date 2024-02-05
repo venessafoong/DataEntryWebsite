@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+  <title>Transaction Information</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Vroom Trading</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/home/{username}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/customer-info">Customers</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                 href="/vehicle-info"
+                 role="button">
+                Vehicles
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/vehicle-info">View All</a></li>
+                <li><a class="dropdown-item" href="/vehicle-addVan">Add Van</a></li>
+                <li><a class="dropdown-item" href="/vehicle-addLorry">Add Lorry</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/transactions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Transactions
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/transactions">View All</a></li>
+                <li><a class="dropdown-item" href="/transactions-add.new">Add for New Customer</a></li>
+                <li><a class="dropdown-item" href="/transactions-add.existing">Add for Existing Customer</a></li>              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <br>
+    <h2 class="text-center">Past Transactions</h2>
+    <br>
+    <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}"></div>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <form th:action="@{/transactions}" class="d-flex" role="search">
+          <input th:value="${keyword}" name="keyword" id="keyword" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" required>
+          <input class="btn btn-outline-success" type="submit" value="Search" />
+          <input class="btn btn-outline-success" type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+        </form>
+      </div>
+    </nav>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Phone No.</th>
+        <th scope="col">Vehicle No.</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Model</th>
+        <th scope="col">Price</th>
+        <th scope="col">Date</th>
+        <th scope="col">Find out more</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="transaction:${transactions}">
+        <td th:text="${transaction.transactionId}"></td>
+        <td th:text="${transaction.customer.firstName}"></td>
+        <td th:text="${transaction.customer.lastName}"></td>
+        <td th:text="${transaction.customer.phoneNumber}"></td>
+        <td th:text="${transaction.vehicle.vehicleNumber}"></td>
+        <td th:text="${transaction.vehicle.brand}"></td>
+        <td th:text="${transaction.vehicle.model}"></td>
+        <td th:text="${transaction.price}"></td>
+        <td th:text="${transaction.date}"></td>
+        <td><a th:href="@{/customer-info(keyword=${transaction.customer.phoneNumber})}">More on customer</a> <br> <a th:href="@{/vehicle-info(keyword=${transaction.vehicle.vehicleNumber})}">More on vehicle</a></td>
+      </tr>
+      <script type="text/javascript">
+            function clearSearch()
+            {
+                window.location = "[[@{/transactions}]]";
+            }
+        </script>
+      </tbody>
+    </table>
+</body>
+</html>
